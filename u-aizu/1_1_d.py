@@ -1,0 +1,5 @@
+num = int(input())
+h = int(num /60//60)
+m = int(num /60%60)
+s = int(num %60)
+print('{}:{}:{}'.format(h,m,s))

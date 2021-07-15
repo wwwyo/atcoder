@@ -1,12 +1,14 @@
-def split_list(l,n):
-    for idx in range(0, len(l), n):
-        yield l[idx:idx+n]
-
-s = input()
-l = list(map(int,list(s)))
-cnt = int(s)
-
-for div in range(1,len(l)+1):
-    cnt+=sum(split_list(l,div))
+s = list(input())
+emp_len = len(s)-1
+cnt=0
+for i in range(2**emp_len):
+    empty = ['']*emp_len
+    for j in range(emp_len):
+        if (i>>j) &1:
+            empty[emp_len - j-1] = '+'
+    formula = ''
+    empty.append('')
+    for k,l in zip(s, empty):
+        formula+=k+l
+    cnt+= eval(formula)
 print(cnt)
-

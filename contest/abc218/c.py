@@ -44,3 +44,6 @@ for _ in range(4):
 else:
     print('No')
 
+
+# 自前で回転
+s = [r for r in zip(*s[::-1])]

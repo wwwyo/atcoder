@@ -7,13 +7,14 @@
 # G'ができる
 
 from sys import setrecursionlimit
+from math import factorial
 setrecursionlimit(10**7)
 
 
 def comb(n,k):
-    return
+    return factorial(n) // (factorial(n-k) * factorial(k))
 
-def dfs(now: int, seen: list, edge: list,post_order):
+def dfs(now: int):
     if seen[now]:
         return
     seen[now] = 1
@@ -24,8 +25,15 @@ def dfs(now: int, seen: list, edge: list,post_order):
     post_order.append(now)
     return
 
-def re_dfs(now: int, seen: list, edge: list):
-    
+def re_dfs(now: int):
+    global cnt
+    if seen[now]: return
+    seen[now] = 1
+    cnt += 1
+    for node in re_edge[now]:
+        if seen[node]: continue
+        re_dfs(node)
+
     return
 
 
@@ -44,10 +52,20 @@ if __name__ == '__main__':
     # すべての頂点を帰りがけ順でメモ
 
     seen = [0] * n # 探索済チェック
+    # 帰りがけ順をメモ
     post_order = []
     for i in range(n):
-        dfs(i,seen,edge,post_order)
+        dfs(i)
 
     ans = 0
     seen = [0] * n
+    # 最大のラベルから逆グラフでdfs => 強連結成分が得られる
+    for i in post_order[::-1]:
+        cnt = 0
+        re_dfs(i)
+        if cnt < 2: continue
 
+        # 強い連結成分の数コンビネーション2
+        ans += comb(cnt,2)
+
+    print(ans)

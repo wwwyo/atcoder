@@ -26,15 +26,14 @@ def dfs(now: int):
     return
 
 def re_dfs(now: int):
-    global cnt
-    if seen[now]: return
+    if seen[now]: return 0
     seen[now] = 1
-    cnt += 1
+    cnt = 1
     for node in re_edge[now]:
         if seen[node]: continue
-        re_dfs(node)
+        cnt += re_dfs(node)
 
-    return
+    return cnt
 
 
 if __name__ == '__main__':
@@ -61,8 +60,7 @@ if __name__ == '__main__':
     seen = [0] * n
     # 最大のラベルから逆グラフでdfs => 強連結成分が得られる
     for i in post_order[::-1]:
-        cnt = 0
-        re_dfs(i)
+        cnt = re_dfs(i)
         if cnt < 2: continue
 
         # 強い連結成分の数コンビネーション2

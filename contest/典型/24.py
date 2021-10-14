@@ -1,3 +1,4 @@
+# パリティ＝偶奇性
 # n = 1000
 n, k = map(int, input().split())
 a = list(map(int, input().split()))

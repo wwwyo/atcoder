@@ -1,52 +1,37 @@
-# t = 100
-t = int(input())
-
-
-def is_ok(r, g, b):
-    if r == g:
-        return r
-    elif g == b:
-        return g
-    elif b == r:
-        return r
+# 同じ値のものが欲しい
+# 差が3離れているとok
+def sameMod(a, b):
+    if a % 3 == b % 3:
+        return True
     else:
-        return 0
+        return False
 
 
-for i in range(t):
-    cnt = 0
-    memo = []
-    r, g, b = list(map(int, input().split()))
-    check = is_ok(r, g, b)
-    diff = (g-r)//3 + 1
-    if check:
-        print(cnt + check)
-        continue
-    g -= diff
-    b -= diff
-    r += (diff * 2)
-    cnt += diff
+def calc(a, b):
+    if a == b:
+        return a
+    elif a > b:
+        return b + (a-b)
+    elif a < b:
+        return a + (b-a)
 
-    diff = (b-g) // 3
-    b -= (diff * 2)
-    g += diff
-    r += diff
-    cnt += diff
-    while True:
-        r, g, b = sorted([r, g, b])
-        if [r, g, b] in memo:
-            print(-1)
-            break
-        else:
-            memo.append([r, g, b])
 
-        check = is_ok(r, g, b)
-        if check:
-            print(cnt + check)
-            break
+def expectOperation(r, g, b):
+    ans = []
+    if sameMod(r, g):
+        ans.append(calc(r, g))
+    if sameMod(g, b):
+        ans.append(calc(g, b))
+    if sameMod(b, r):
+        ans.append(calc(b, r))
+    if not ans:
+        return -1
+    else:
+        return min(ans)
 
-        diff = (g-r)//3 + 1
-        g -= diff
-        b -= diff
-        r += (diff * 2)
-        cnt += diff
+
+t = int(input())
+for _ in range(t):
+    r, g, b = map(int, input().split())
+    ans = expectOperation(r, g, b)
+    print(ans)

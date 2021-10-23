@@ -1,46 +1,22 @@
+# エストラテネスで素因数列挙すれば、O(N log(log(N)))
+
+# * 試し割りだと無理だった
 import math
 # n = 10 ^ 7
 # 1 <= k <= 8
 n, k = map(int, input().split())
 
+# 方針
+# nをループで回して素数じゃなかったらcontinue
+# * 素数かどうかはそれより小さい値の倍数に含まれていないことから確認できる
+# 素数なら、倍数をインクリメント
+# 最終的なカウントを見れば、その値の素因数の数がわかる
 
-def primeFactorize(n):
-    if n == 1:
-        return [1]
+cnt = [0] * (n+1)
+for i in range(2,n+1):
+    if cnt[i]: continue
 
-    prime_factorizes = []
-    while n % 2 == 0:
-        prime_factorizes.append(2)
-        n //= 2
+    for j in range(i, n+1, i):
+        cnt[j] += 1
 
-    divide = 3
-    while divide < n:
-        if n % divide == 0:
-            prime_factorizes.append(divide)
-            n //= divide
-        else:
-            divide += 2
-    if n != 1:
-        prime_factorizes.append(n)
-    return prime_factorizes
-
-
-# 素因数の種類がk以上の時、素因数から構成される数を削除する。
-ans = 0
-iter = dict(enumerate(range(1, n+1)))
-for i in range(n+1):
-    v = iter[i]
-    if v == 0:
-        continue
-    factors = primeFactorize(v)
-    if len(set(factors)) >= k:
-        ans += 1
-        for j in range(2, n):
-            j *= v
-            if j > n:
-                break
-            if not iter[j]:
-                continue
-            ans += 1
-            iter[j] = 0
-print(ans)
+print(sum(i >= k for i in cnt))

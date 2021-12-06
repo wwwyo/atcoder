@@ -8,7 +8,8 @@ for i in range(n):
     if xor != 0:
         continue
     if (n-i) %2 == 0:
-        
+        print("")
+
 if xor in a:
     print('Win')
 else:

@@ -64,7 +64,8 @@ def solve(x,i):
     cost = x//a[i]
     x %= a[i]
 
-    cost += min(solve(x,i-1),1+solve(a[i]-x,i-1))
+    if x != 0:
+        cost += min(solve(x,i-1),1+solve(a[i]-x,i-1))
     memo[i][old_x] = cost
     return cost
 print(solve(x,n-1))

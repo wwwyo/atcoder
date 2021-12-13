@@ -1,3 +1,5 @@
+
+# ! timeout
 from collections import deque
 import heapq
 # 10^5,10^5,n-2,10^5
@@ -5,9 +7,9 @@ n,m,k,s = map(int,input().split())
 # 安い、高い
 price = list(map(int,input().split()))
 cost = [0]*n
-zonbi = []
+zonbi = {}
 for _ in range(k):
-    zonbi.append(int(input())-1)
+    zonbi[int(input())-1] = 1
 
 dist = [[] for _ in range(n)]
 for _ in range(m):
@@ -18,10 +20,10 @@ for _ in range(m):
 # 宿泊費の合計の最小値
 # 1. 幅優先探索で高くなる町(s以内)をpick up
 # 2. dijkstraでnまでの最小のコストを求める
-def bfs(start):
+def bfs(start,visited):
     queue = deque()
     queue.append(start)
-    visited = {start:1}
+    visited[start] = 1
     step = 0
     while step <= s:
         for _ in range(len(queue)):
@@ -35,11 +37,8 @@ def bfs(start):
         step +=1
 
 
-def dijkstra(start,end):
+def dijkstra(start,end,visited):
     queue = [[0,start]]
-    visited = {}
-    for i in zonbi:
-        visited[i] = 1
     while queue:
         curr_cost,current = heapq.heappop(queue)
         if visited.get(current):
@@ -53,9 +52,9 @@ def dijkstra(start,end):
 
 
 
-for i in zonbi:
+for i in zonbi.keys():
     # costをセットしていく
-    bfs(i)
+    bfs(i,zonbi.copy())
 
-print(dijkstra(0,n-1))
+print(dijkstra(0,n-1,zonbi.copy()))
 

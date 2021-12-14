@@ -4,17 +4,17 @@ from collections import deque
 def main(w,h):
     dist = []
     for _ in range(h):
-        c = list(map(lambda x: 0 if x==1 else 0,input().split()))
+        c = list(map(lambda x: 0 if int(x)==1 else 1,input().split()))
         dist.append(c)
-    visited = [[0]*w for _ in range(h)]
+    # visited = [[0]*w for _ in range(h)]
     ans = 0
     for i in range(h):
         for j in range(w):
-            if visited[i][j]:
+            if dist[i][j]:
                 continue
             bfs(i,j,dist)
             ans+=1
-    print('---',ans)
+    print(ans)
 
 def bfs(i,j,visited):
     queue = deque([[i,j]])

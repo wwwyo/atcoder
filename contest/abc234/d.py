@@ -14,20 +14,19 @@ from collections import deque
 #     print(lst[-k])
 
 
+# 優先度付きキューで管理すればいけた
+import heapq
 n,k = map(int,input().split())
 p = list(map(int,input().split()))
 
-lst = sorted(p[:k])
-q = deque(lst)
-ini = q[0]
-print(ini)
+q = p[:k]
+heapq.heapify(q)
+print(q[0])
 for i in range(k,n):
-    if ini > p[i]:
-        print(ini)
-        continue
-    else:
-        q.popleft()
-        q.append(p[i])
-        q = deque(sorted(list(q)))
-        ini = q[0]
-        print(ini)
+    if q[0] < p[i]:
+        heapq.heappop(q)
+        heapq.heappush(q,p[i])
+    print(q[0])
+
+
+

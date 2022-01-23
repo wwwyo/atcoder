@@ -16,19 +16,17 @@ for _ in range(2*n-1):
 # print(ans)
 ans = []
 all_lst = set()
-def recursive(ini,cnt,lst):
-    if len(lst) == 2*n:
+def recursive(cnt,lst):
+    if len(lst) == 0:
         # print(cnt,lst)
         ans.append(cnt)
         return
-    for i in range(ini,n):
-        if lst & {i}:
+    i = min(lst)
+    for j in range(i+1,2*n):
+        if not lst &{j}:
             continue
-        for j in range(i+1,2*n):
-            if lst &{j}:
-                continue
-            # print(i,j,a[i][j-i-1])
-            recursive(i+1,cnt ^ a[i][j-i-1],lst | {i,j})
+        # print(i,j,a[i][j-i-1])
+        recursive(cnt ^ a[i][j-i-1],lst - {i,j})
     # if len(lst) == 2*n:
     #     ans.append(cnt)
     #     return
@@ -43,7 +41,7 @@ def recursive(ini,cnt,lst):
     #         recursive(i,cnt,lst | {i})
 
 
-recursive(0,0,set())
+recursive(0,set(list(range(2*n))))
 print(max(ans))
 
 

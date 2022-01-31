@@ -1,7 +1,18 @@
 
+from collections import deque
 n = int(input())
 s = list(input())
-a = [0] * (n+1)
+l = deque()
+r = deque()
+
+for i in range(n):
+    if s[i] == 'L':
+        r.appendleft(i)
+    else:
+        l.append(i)
+ans = list(l) + [n] + list(r)
+print(*ans)
+
 # bef = 0
 # cnt = 0
 # # 順番を入れてソート
@@ -20,22 +31,22 @@ a = [0] * (n+1)
 #     cnt+=1
 # print(*a)
 
-l = -pow(2,n)
-r = -l
-# l,rの差分より小さい数
-for i in range(n):
-    if s[i] == 'L':
-        r = a[i]
-        a[i+1] = (l + a[i]) / 2
-    else:
-        l = a[i]
-        a[i+1] = (a[i] + r) / 2
+# l = -pow(2,n)
+# r = -l
+# # l,rの差分より小さい数
+# for i in range(n):
+#     if s[i] == 'L':
+#         r = a[i]
+#         a[i+1] = (l + a[i]) / 2
+#     else:
+#         l = a[i]
+#         a[i+1] = (a[i] + r) / 2
 
-    # print(a)
+#     # print(a)
 
-ans = []
-for i in list(sorted(enumerate(a), key=lambda x: x[1])):
-    ans.append(i[0])
-print(*ans)
+# ans = []
+# for i in list(sorted(enumerate(a), key=lambda x: x[1])):
+#     ans.append(i[0])
+# print(*ans)
 
 
